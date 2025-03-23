@@ -1,5 +1,4 @@
 import customtkinter as ctk
-
 class Application(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -52,7 +51,3 @@ class Application(ctk.CTk):
         elif button_name == "Profil użytkownika":
             # tutaj dodajemy akcje dla przycisku "Profil użytkownika"
             print("Profil użytkownika")
-
-if __name__ == "__main__":
-    app = Application()
-    app.mainloop()
