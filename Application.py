@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from Perms import Perms
+from AddProduct import AddProduct
 
 class Application(ctk.CTk):
     def __init__(self, root):
@@ -66,6 +67,7 @@ class Application(ctk.CTk):
         elif button_name == "Dodaj produkt":
             # tutaj dodajemy akcje dla przycisku "Dodaj produkt"
             print("Dodaj produkt")
+            AddProduct()
         elif button_name == "Raporty":
             # tutaj dodajemy akcje dla przycisku "Raporty"
             print("Raporty")
