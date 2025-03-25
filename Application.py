@@ -1,8 +1,11 @@
 import customtkinter as ctk
+from Perms import Perms
+
 class Application(ctk.CTk):
-    def __init__(self):
+    def __init__(self, root):
         super().__init__()
 
+        self.root = root
         self.geometry('1200x800')
         self.title('Sklep z ubraniami')
         ctk.set_appearance_mode("dark")
@@ -18,15 +21,36 @@ class Application(ctk.CTk):
 
     def create_buttons(self, panel):
         """Tworzy przyciski w głównym panelu."""
-        button_texts = [
-            "Panel główny", 
-            "Przeglądaj ubrania", 
-            "Dodaj produkt", 
-            "Raporty", 
-            "Koszyk", 
-            "Profil użytkownika"
-        ]
+
+        # do edycji w przypadku dodania nowego panelu / modyfikacji permisji
+        button_options = {
+            Perms.GUEST.value: [
+                "Panel główny", 
+                "Przeglądaj ubrania"
+                ],
+            Perms.USER.value: [  
+                "Panel główny", 
+                "Przeglądaj ubrania", 
+                "Koszyk", 
+                "Profil użytkownika"
+                ],
+            Perms.MANAGER.value: [
+                "Panel główny", 
+                "Przeglądaj ubrania", 
+                "Dodaj produkt", 
+                "Panel Managera"
+                ],
+            Perms.ADMIN.value: [
+                "Panel główny", 
+                "Przeglądaj ubrania", 
+                "Dodaj produkt", 
+                "Raporty", 
+                "Panel Admina"
+                ],
+        }
         
+        button_texts = button_options.get(self.root.perm_level, [])
+
         for text in button_texts:
             button = ctk.CTkButton(panel, text=text, command=lambda t=text: self.button_action(t))
             button.pack(side="left", padx=10, pady=10, fill="y", expand=True)
@@ -51,3 +75,9 @@ class Application(ctk.CTk):
         elif button_name == "Profil użytkownika":
             # tutaj dodajemy akcje dla przycisku "Profil użytkownika"
             print("Profil użytkownika")
+        elif button_name == "Panel Managera":
+            # tutaj dodajemy akcje dla przycisku "Profil użytkownika"
+            print("Panel Managera")
+        elif button_name == "Panel Admina":
+            # tutaj dodajemy akcje dla przycisku "Profil użytkownika"
+            print("Panel Admina")

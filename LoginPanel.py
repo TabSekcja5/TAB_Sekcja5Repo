@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from Perms import Perms
 
 class LoginPanel(ctk.CTk):
     def __init__(self, root):
@@ -9,6 +10,9 @@ class LoginPanel(ctk.CTk):
         self.title("Sklep z ubraniami")
         self.geometry("600x600")
         self.create_login_screen()
+
+        #wartosc permisji do debugowania - od 0-3 wg enum Perms
+        self.debug_login_perm_level = 3
 
 
     def create_registration_screen(self):
@@ -75,20 +79,40 @@ class LoginPanel(ctk.CTk):
         switch_to_register_button = ctk.CTkButton(self, text="Nie masz konta? Zarejestruj się", command=self.create_registration_screen)
         switch_to_register_button.pack(pady=10)
 
+        # Przycisk wejścia jako gość
+        login_as_guest_button = ctk.CTkButton(self, text="Wejdź jako niezalogowany gość", command=self.login_as_guest)
+        login_as_guest_button.pack(pady=20)
+
     def register(self):
         username = self.username_entry.get()
         email = self.email_entry.get()
         password = self.password_entry.get()
-        print(f"Rejestracja użytkownika: {username}, {email}, {password}")
         # Tu możesz dodać logikę rejestracji użytkownika
+
+        print(f"Rejestracja użytkownika: {username}, {email}, {password}")
+
 
     def login(self):
         user_email = self.user_email_entry.get()
         password = self.password_entry.get()
-        print(f"Logowanie użytkownika: {user_email}, {password}")
         
         # TODO logika logowania
+
+        # TODO odczyt danych logowania z bazy
+
+        self.root.logged = True
+        self.root.perm_level = self.debug_login_perm_level
+
+        print(f"Logowanie użytkownika: {user_email}, {password}, {Perms(self.root.perm_level)}")
         self.root.create_main_panel()
+
+
+    def login_as_guest(self):
+        self.root.logged = False
+        self.root.perm_level = 0
+        print(f"Dostęp dla gościa: {Perms(self.root.perm_level)}")
+        self.root.create_main_panel()
+
 
 if __name__ == "__main__":
     root = ctk.CTk()
