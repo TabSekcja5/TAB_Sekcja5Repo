@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from Perms import Perms
 from AddProduct import AddProduct
+from BrowseProducts import BrowseProducts
 
 class Application(ctk.CTk):
     def __init__(self, root):
@@ -13,6 +14,7 @@ class Application(ctk.CTk):
         ctk.set_default_color_theme("green")
         self.main_panel = self.create_main_panel()
         self.create_buttons(self.main_panel)
+        self.browse_products = BrowseProducts(self)
 
     def create_main_panel(self):
         """Tworzy główny panel na górze aplikacji."""
@@ -61,25 +63,32 @@ class Application(ctk.CTk):
         if button_name == "Panel główny":
             # tutaj dodajemy akcje dla przycisku "Panel główny"
             print("Panel główny")
+            self.browse_products.pack_forget()
         elif button_name == "Przeglądaj ubrania":
             # tutaj dodajemy akcje dla przycisku "Przeglądaj ubrania"
             print("Przeglądaj ubrania")
+            self.browse_products.pack(fill="both", expand=True)
         elif button_name == "Dodaj produkt":
             # tutaj dodajemy akcje dla przycisku "Dodaj produkt"
             print("Dodaj produkt")
-            AddProduct()
+            AddProduct(self.browse_products)
         elif button_name == "Raporty":
             # tutaj dodajemy akcje dla przycisku "Raporty"
             print("Raporty")
+            self.browse_products.pack_forget()
         elif button_name == "Koszyk":
             # tutaj dodajemy akcje dla przycisku "Koszyk"
             print("Koszyk")
+            self.browse_products.pack_forget()
         elif button_name == "Profil użytkownika":
             # tutaj dodajemy akcje dla przycisku "Profil użytkownika"
             print("Profil użytkownika")
+            self.browse_products.destroy()
         elif button_name == "Panel Managera":
             # tutaj dodajemy akcje dla przycisku "Profil użytkownika"
             print("Panel Managera")
+            self.browse_products.pack_forget()
         elif button_name == "Panel Admina":
             # tutaj dodajemy akcje dla przycisku "Profil użytkownika"
             print("Panel Admina")
+            self.browse_products.pack_forget()

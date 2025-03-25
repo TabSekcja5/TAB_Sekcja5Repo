@@ -1,9 +1,10 @@
 import customtkinter as ctk 
+from Product import Product
 
 class AddProduct(ctk.CTk):
-    def __init__(self):
+    def __init__(self, browse_products):
         super().__init__()
-
+        self.browse_products = browse_products
         self.title("Dodaj produkt")
         self.geometry("400x500")
         ctk.set_appearance_mode("dark")
@@ -63,6 +64,13 @@ class AddProduct(ctk.CTk):
     def add_product(self):
         data = self.get_product_data()
         print("Dodawanie produktu:", data) 
+        name = data["nazwa"]
+        quantity = data["ilość"]
+        description = data["opis"]
+        price = data["cena"]
+        category = data["kategoria"]
+        product = Product(self, name, quantity, description, price, category)
+        self.browse_products.add_product(product)
         #***
         #*  Logika dodawania produktu tutaj
         #*

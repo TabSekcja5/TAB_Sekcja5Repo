@@ -8,6 +8,9 @@ class Main:
         self.login_panel = LoginPanel(self)
         self.login_panel.mainloop()
     
+    def get_perm_level(self):
+        return self.perm_level
+    
     def create_main_panel(self):
         self.login_panel.destroy()
         app = Application(self)        
