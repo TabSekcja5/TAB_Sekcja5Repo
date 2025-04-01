@@ -12,7 +12,7 @@ class LoginPanel(ctk.CTk):
         self.create_login_screen()
 
         #wartosc permisji do debugowania - od 0-3 wg enum Perms
-        self.debug_login_perm_level = 3
+        self.debug_login_perm_level = 1
 
 
     def create_registration_screen(self):
