@@ -1,4 +1,5 @@
 import customtkinter as ctk 
+import re
 from Product import Product
 
 class AddProduct(ctk.CTk):
@@ -14,6 +15,10 @@ class AddProduct(ctk.CTk):
         self.mainloop()
 
     def create_add_product_screen(self):
+        # podpięcie funkcji walidujących
+        val_int = self.register(self.validate_int)
+        val_float = self.register(self.validate_float)
+
         # Nazwa
         self.name_label = ctk.CTkLabel(self, text="Nazwa:")
         self.name_label.pack(pady=(10, 0))
@@ -23,7 +28,7 @@ class AddProduct(ctk.CTk):
         # Ilość
         self.quantity_label = ctk.CTkLabel(self, text="Ilość:")
         self.quantity_label.pack(pady=(10, 0))
-        self.quantity_entry = ctk.CTkEntry(self)
+        self.quantity_entry = ctk.CTkEntry(self, validate="key", validatecommand=(val_int, "%P"))
         self.quantity_entry.pack()
 
         # Opis
@@ -35,7 +40,7 @@ class AddProduct(ctk.CTk):
         # Cena
         self.price_label = ctk.CTkLabel(self, text="Cena:")
         self.price_label.pack(pady=(10, 0))
-        self.price_entry = ctk.CTkEntry(self)
+        self.price_entry = ctk.CTkEntry(self, validate="key", validatecommand=(val_float, "%P"))
         self.price_entry.pack()
 
         # Kategoria
@@ -76,3 +81,14 @@ class AddProduct(ctk.CTk):
         #*
         #***
 
+        # zamknięcie okna po dodaniu
+        self.destroy()
+
+    # funkcjie walidujące pola liczbowe
+    def validate_int(self, new_value):
+        return new_value.isdigit() or new_value == ""
+
+    def validate_float(self, new_value):
+        if new_value == "":
+            return True
+        return bool(re.fullmatch(r"\d*(\.\d{0,2})?", new_value))

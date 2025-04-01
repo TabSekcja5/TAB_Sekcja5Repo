@@ -83,7 +83,7 @@ class Application(ctk.CTk):
         elif button_name == "Profil użytkownika":
             # tutaj dodajemy akcje dla przycisku "Profil użytkownika"
             print("Profil użytkownika")
-            self.browse_products.destroy()
+            self.browse_products.pack_forget()
         elif button_name == "Panel Managera":
             # tutaj dodajemy akcje dla przycisku "Profil użytkownika"
             print("Panel Managera")
