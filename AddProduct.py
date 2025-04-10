@@ -1,6 +1,8 @@
 import customtkinter as ctk 
 import re
 from Product import Product
+import sqlite3
+import os
 
 class AddProduct(ctk.CTk):
     def __init__(self, browse_products):
@@ -78,7 +80,42 @@ class AddProduct(ctk.CTk):
         self.browse_products.add_product(product)
         #***
         #*  Logika dodawania produktu tutaj
-        #*
+
+        db_path = "./main/bazadanych/clothing_shop_db.db"
+
+        try:
+            # Połączenie z bazą danych
+            with sqlite3.connect(db_path) as conn:
+                cursor = conn.cursor()
+                print("Połączono!!!")
+
+                # Sprawdzenie tabeli przed wykonaniem zapytania
+                cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+                tables = cursor.fetchall()
+                print("Dostępne tabele:", tables)
+
+                # Tymczasowo ustawiamy category_id na 1 (musisz mieć kategorię o ID 1 w tabeli categories)
+                category_id = 1
+
+                # Zapytanie SQL do wstawienia produktu
+                cursor.execute("""
+                            INSERT INTO products (category_id, name, description, price, stock_quantity)
+                            VALUES (?, ?, ?, ?, ?)
+                        """, (category_id, name, description, float(price), int(quantity)))
+                print("Zapytanie wywolane")
+
+                # Zatwierdzenie zmian w bazie
+                conn.commit()
+                print("Produkt zapisany w bazie danych!")
+
+        except sqlite3.Error as e:
+            print(f"Błąd podczas zapisu do bazy danych: {e}")
+            return
+
+        # Tworzenie obiektu Product i dodanie do BrowseProducts (opcjonalne na tym etapie)
+        #product = Product(self, name, quantity, description, price, category)
+        #self.browse_products.add_product(product)
+
         #***
 
         # zamknięcie okna po dodaniu

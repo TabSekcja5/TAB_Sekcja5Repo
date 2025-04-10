@@ -1,5 +1,7 @@
 import customtkinter as ctk
 from Perms import Perms
+import Product
+import sqlite3
 
 class BrowseProducts(ctk.CTkFrame):
     def __init__(self, parent):
@@ -18,7 +20,44 @@ class BrowseProducts(ctk.CTkFrame):
     
     def generate_products_list(self):
         products = []
-        # TODO odczyt danych z bazy
+
+        db_path = "./main/bazadanych/clothing_shop_db.db"
+
+        try:
+            # Połączenie z bazą danych
+            with sqlite3.connect(db_path) as conn:
+                cursor = conn.cursor()
+                print("Połączono z bazą danych")
+
+                # Zapytanie SQL, które pobiera wszystkie produkty
+                cursor.execute("""
+                    SELECT p.name, p.description, p.price, p.stock_quantity, c.name
+                    FROM products p
+                    JOIN categories c ON p.category_id = c.id
+                """)
+
+                # Pobieranie wyników zapytania
+                rows = cursor.fetchall()
+
+                # Iterowanie po wynikach i dodawanie ich do listy
+                for row in rows:
+                    name = row[0]
+                    description = row[1]
+                    price = row[2]
+                    stock_quantity = row[3]
+                    category_name = row[4]
+
+                    # Tworzymy obiekt Product i dodajemy go do listy
+                    product = Product(self, name, stock_quantity, description, price, category_name)
+                    products.append(product)
+
+                print("Produkty załadowane z bazy danych!")
+
+        except sqlite3.Error as e:
+            print(f"Błąd podczas odczytu z bazy danych: {e}")
+
+        return products
+
         return products
 
     def create_products_list(self):
