@@ -5,7 +5,7 @@ from Perms import Perms
 
 class Product(ctk.CTkFrame):
     def __init__(self, parent, name, quantity, description, price, category):
-        super().__init__(parent.browse_products)
+        super().__init__(parent)
         self.parent = parent
         self.id = IDGenerator().generate_id()
         self.name = name
@@ -13,7 +13,7 @@ class Product(ctk.CTkFrame):
         self.description = description
         self.price = price
         self.category = category
-        self.perm_level = parent.browse_products.parent.root.get_perm_level()
+        self.perm_level = parent.get_perm_level()
         
         self.configure(fg_color="#2b2b2a")
         
@@ -40,6 +40,6 @@ class Product(ctk.CTkFrame):
         pass
     
     def delete(self):
-        self.parent.browse_products.unpack_product_by_id(self.id)
+        self.parent.unpack_product_by_id(self.id)
         #* Implementacja usuwania produktu
 

@@ -3,19 +3,19 @@ from Perms import Perms
 from AddProduct import AddProduct
 from BrowseProducts import BrowseProducts
 from UserProfile import UserProfile
+import sqlite3
 
 class Application(ctk.CTk):
     def __init__(self, root):
         super().__init__()
-
         self.root = root
         self.geometry('1200x800')
         self.title('Sklep z ubraniami')
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("green")
         self.main_panel = self.create_main_panel()
+        #self.browse_products = None
         self.create_buttons(self.main_panel)
-        self.browse_products = BrowseProducts(self)
 
         # do zmiany jak baza wstanie
         self.user_profile = UserProfile(self,root.user_id,"temp Username","temp Email")
@@ -58,6 +58,7 @@ class Application(ctk.CTk):
         
         button_texts = button_options.get(self.root.perm_level, [])
 
+
         for text in button_texts:
             button = ctk.CTkButton(panel, text=text, command=lambda t=text: self.button_action(t))
             button.pack(side="left", padx=10, pady=10, fill="x", expand=True)
@@ -71,14 +72,14 @@ class Application(ctk.CTk):
             print("Panel główny")
 
         elif button_name == "Przeglądaj ubrania":
-            # tutaj dodajemy akcje dla przycisku "Przeglądaj ubrania"
             print("Przeglądaj ubrania")
+            self.browse_products = BrowseProducts(self)
             self.browse_products.pack(fill="both", expand=True)
 
         elif button_name == "Dodaj produkt":
             # tutaj dodajemy akcje dla przycisku "Dodaj produkt"
             print("Dodaj produkt")
-            AddProduct(self.browse_products)
+            AddProduct()
 
         elif button_name == "Raporty":
             # tutaj dodajemy akcje dla przycisku "Raporty"
@@ -103,5 +104,5 @@ class Application(ctk.CTk):
 
 
     def hide_all(self):
-        self.browse_products.pack_forget()
+        #self.browse_products.pack_forget()
         self.user_profile.pack_forget()
