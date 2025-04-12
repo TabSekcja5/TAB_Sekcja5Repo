@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from Perms import Perms
-import Product
+from Product import Product
 import sqlite3
 
 class BrowseProducts(ctk.CTkFrame):
@@ -8,7 +8,6 @@ class BrowseProducts(ctk.CTkFrame):
         super().__init__(parent)
         self.configure(fg_color="#242424")
         self.perm_level = parent.root.get_perm_level()
-        self.parent = parent
 
         # Tworzenie przewijalnego kontenera
         self.scroll_frame = ctk.CTkScrollableFrame(self)
@@ -17,42 +16,39 @@ class BrowseProducts(ctk.CTkFrame):
         
         self.product_list = self.generate_products_list()
         self.create_products_list()
-    
+
+    def get_perm_level(self):
+        return self.perm_level
+
     def generate_products_list(self):
         products = []
-
         db_path = "./main/bazadanych/clothing_shop_db.db"
 
         try:
-            # Połączenie z bazą danych
             with sqlite3.connect(db_path) as conn:
                 cursor = conn.cursor()
                 print("Połączono z bazą danych")
 
-                # Zapytanie SQL, które pobiera wszystkie produkty
                 cursor.execute("""
                     SELECT p.name, p.description, p.price, p.stock_quantity, c.name
                     FROM products p
-                    JOIN categories c ON p.category_id = c.id
+                    JOIN categories c ON p.category_id = c.category_id
                 """)
-
-                # Pobieranie wyników zapytania
                 rows = cursor.fetchall()
+                print("Wyniki zapytania:", rows)
 
-                # Iterowanie po wynikach i dodawanie ich do listy
                 for row in rows:
                     name = row[0]
                     description = row[1]
                     price = row[2]
                     stock_quantity = row[3]
                     category_name = row[4]
+                    print(f"Ładowanie produktu: {name}, {description}, {price}, {stock_quantity}, {category_name}")
 
-                    # Tworzymy obiekt Product i dodajemy go do listy
                     product = Product(self, name, stock_quantity, description, price, category_name)
                     products.append(product)
 
                 print("Produkty załadowane z bazy danych!")
-
         except sqlite3.Error as e:
             print(f"Błąd podczas odczytu z bazy danych: {e}")
 

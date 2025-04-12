@@ -1,19 +1,18 @@
-import customtkinter as ctk 
+import customtkinter as ctk
 import re
 import tkinter.messagebox as messagebox
 from Product import Product
 import sqlite3
 import os
 
+
 class AddProduct(ctk.CTk):
-    def __init__(self, browse_products):
+    def __init__(self):
         super().__init__()
-        self.browse_products = browse_products
         self.title("Dodaj produkt")
         self.geometry("400x500")
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("green")
-
         self.create_add_product_screen()
         self.mainloop()
 

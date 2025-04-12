@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from Perms import Perms
 
+
 class LoginPanel(ctk.CTk):
     def __init__(self, root):
         super().__init__()
@@ -13,7 +14,6 @@ class LoginPanel(ctk.CTk):
 
         #wartosc permisji do debugowania - od 0-3 wg enum Perms
         self.debug_login_perm_level = 3
-
 
     def create_registration_screen(self):
         # Usunięcie poprzednich widgetów
@@ -47,7 +47,8 @@ class LoginPanel(ctk.CTk):
         register_button.pack(pady=20)
 
         # Przycisk przejścia do logowania
-        switch_to_login_button = ctk.CTkButton(self, text="Masz już konto? Zaloguj się", command=self.create_login_screen)
+        switch_to_login_button = ctk.CTkButton(self, text="Masz już konto? Zaloguj się",
+                                               command=self.create_login_screen)
         switch_to_login_button.pack(pady=10)
 
     def create_login_screen(self):
@@ -76,7 +77,8 @@ class LoginPanel(ctk.CTk):
         login_button.pack(pady=20)
 
         # Przycisk przejścia do rejestracji
-        switch_to_register_button = ctk.CTkButton(self, text="Nie masz konta? Zarejestruj się", command=self.create_registration_screen)
+        switch_to_register_button = ctk.CTkButton(self, text="Nie masz konta? Zarejestruj się",
+                                                  command=self.create_registration_screen)
         switch_to_register_button.pack(pady=10)
 
         # Przycisk wejścia jako gość
@@ -91,11 +93,10 @@ class LoginPanel(ctk.CTk):
 
         print(f"Rejestracja użytkownika: {username}, {email}, {password}")
 
-
     def login(self):
         user_email = self.user_email_entry.get()
         password = self.password_entry.get()
-        
+
         # TODO logika logowania
 
         # TODO odczyt danych logowania z bazy
@@ -105,7 +106,6 @@ class LoginPanel(ctk.CTk):
 
         print(f"Logowanie użytkownika: {user_email}, {password}, {Perms(self.root.perm_level)}")
         self.root.create_main_panel()
-
 
     def login_as_guest(self):
         self.root.logged = False
