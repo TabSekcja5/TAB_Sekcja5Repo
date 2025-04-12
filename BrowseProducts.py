@@ -58,7 +58,6 @@ class BrowseProducts(ctk.CTkFrame):
 
         return products
 
-        return products
 
     def create_products_list(self):
         for product in self.product_list:
