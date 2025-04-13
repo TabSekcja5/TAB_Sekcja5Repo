@@ -14,7 +14,7 @@ class Application(ctk.CTk):
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("green")
         self.main_panel = self.create_main_panel()
-        #self.browse_products = None
+        self.browse_products = BrowseProducts(self)
         self.create_buttons(self.main_panel)
 
         # do zmiany jak baza wstanie
@@ -68,16 +68,15 @@ class Application(ctk.CTk):
         self.hide_all()
 
         if button_name == "Panel główny":
-            # tutaj dodajemy akcje dla przycisku "Panel główny"
             print("Panel główny")
 
         elif button_name == "Przeglądaj ubrania":
             print("Przeglądaj ubrania")
-            self.browse_products = BrowseProducts(self)
+            self.browse_products.refresh()
             self.browse_products.pack(fill="both", expand=True)
 
+
         elif button_name == "Dodaj produkt":
-            # tutaj dodajemy akcje dla przycisku "Dodaj produkt"
             print("Dodaj produkt")
             AddProduct()
 
@@ -104,5 +103,6 @@ class Application(ctk.CTk):
 
 
     def hide_all(self):
-        #self.browse_products.pack_forget()
+        #if self.browse_products is not None:
+        #    self.browse_products.pack_forget()
         self.user_profile.pack_forget()
