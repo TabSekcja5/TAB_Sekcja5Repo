@@ -73,6 +73,10 @@ class Application(ctk.CTk):
 
         elif button_name == "Przeglądaj ubrania":
             print("Przeglądaj ubrania")
+            try:
+                self.browse_products.pack_forget()
+            except AttributeError:
+                pass
             self.browse_products = BrowseProducts(self)
             self.browse_products.pack(fill="both", expand=True)
 
@@ -84,21 +88,41 @@ class Application(ctk.CTk):
         elif button_name == "Raporty":
             # tutaj dodajemy akcje dla przycisku "Raporty"
             print("Raporty")
+            try:
+                self.browse_products.pack_forget()
+            except AttributeError:
+                pass
 
         elif button_name == "Koszyk":
             # tutaj dodajemy akcje dla przycisku "Koszyk"
             print("Koszyk")
+            try:
+                self.browse_products.pack_forget()
+            except AttributeError:
+                pass
 
         elif button_name == "Profil użytkownika":
             # tutaj dodajemy akcje dla przycisku "Profil użytkownika"
             print("Profil użytkownika")
+            try:
+                self.browse_products.pack_forget()
+            except AttributeError:
+                pass
             self.user_profile.pack(fill="both", expand=True)
 
         elif button_name == "Panel Managera":
+            try:
+                self.browse_products.pack_forget()
+            except AttributeError:
+                pass
             # tutaj dodajemy akcje dla przycisku "Profil użytkownika"
             print("Panel Managera")
 
         elif button_name == "Panel Admina":
+            try:
+                self.browse_products.pack_forget()
+            except AttributeError:
+                pass
             # tutaj dodajemy akcje dla przycisku "Profil użytkownika"
             print("Panel Admina")
 
