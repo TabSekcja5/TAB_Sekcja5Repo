@@ -1,111 +1,221 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/POLSL/TAB_Sekcja5_Projekt/TAB_Sekcja5Repo/main/bazadanych/clothing_shop_db.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2595"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,15:mainsqlite_sequence"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">CREATE TABLE categories (
-    category_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL UNIQUE,
-    description TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Tworzenie tabeli products
-CREATE TABLE products (
-    product_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    category_id INTEGER NOT NULL,
-    name TEXT NOT NULL,
-    description TEXT,
-    price REAL NOT NULL,
-    stock_quantity INTEGER NOT NULL DEFAULT 0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (category_id) REFERENCES categories(category_id)
-);
-
--- Tworzenie tabeli wallet
-CREATE TABLE wallet (
-    wallet_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL UNIQUE,
-    balance REAL NOT NULL DEFAULT 0.0,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
--- Tworzenie tabeli orders
-CREATE TABLE orders (
-    order_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    total_amount REAL NOT NULL,
-    status TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
-);
-
--- Tworzenie tabeli order_items
-CREATE TABLE order_items (
-    order_item_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    order_id INTEGER NOT NULL,
-    product_id INTEGER NOT NULL,
-    quantity INTEGER NOT NULL,
-    price REAL NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_id) REFERENCES orders(order_id),
-    FOREIGN KEY (product_id) REFERENCES products(product_id)
-);
-
--- Tworzenie tabeli cart
-CREATE TABLE cart (
-    cart_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    product_id INTEGER NOT NULL,
-    quantity INTEGER NOT NULL DEFAULT 1,
-    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (product_id) REFERENCES products(product_id)
-);
-
--- Tworzenie tabeli reviews
-CREATE TABLE reviews (
-    review_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    product_id INTEGER NOT NULL,
-    rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
-    comment TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
-    FOREIGN KEY (product_id) REFERENCES products(product_id)
-);
-
--- Tworzenie tabeli transactions
-CREATE TABLE transactions (
-    transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    wallet_id INTEGER NOT NULL,
-    order_id INTEGER,
-    amount REAL NOT NULL,
-    type TEXT NOT NULL,
-    status TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (wallet_id) REFERENCES wallet(wallet_id),
-    FOREIGN KEY (order_id) REFERENCES orders(order_id)
-);
-
--- Tworzenie tabeli administrators
-CREATE TABLE administrators (
-    admin_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT NOT NULL UNIQUE,
-    email TEXT NOT NULL UNIQUE,
-    password TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- Tworzenie tabeli reports
-CREATE TABLE reports (
-    report_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    admin_id INTEGER NOT NULL,
-    title TEXT NOT NULL,
-    content TEXT,
-    generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (admin_id) REFERENCES administrators(admin_id)
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/POLSL/TAB_Sekcja5_Projekt/TAB_Sekcja5Repo/main/bazadanych/clothing_shop_db.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2595"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,15:mainsqlite_sequence"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">CREATE TABLE categories (
+
+    category_id INTEGER PRIMARY KEY,
+
+    name TEXT NOT NULL UNIQUE,
+
+    description TEXT,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+);
+
+
+
+-- Tworzenie tabeli products
+
+CREATE TABLE products (
+
+    product_id INTEGER PRIMARY KEY,
+
+    category_id INTEGER NOT NULL,
+
+    name TEXT NOT NULL,
+
+    description TEXT,
+
+    price REAL NOT NULL,
+
+    stock_quantity INTEGER NOT NULL DEFAULT 0,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+
+);
+
+
+
+-- Tworzenie tabeli wallet
+
+CREATE TABLE wallet (
+
+    wallet_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    user_id INTEGER NOT NULL UNIQUE,
+
+    balance REAL NOT NULL DEFAULT 0.0,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+
+);
+
+
+
+-- Tworzenie tabeli orders
+
+CREATE TABLE orders (
+
+    order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    user_id INTEGER NOT NULL,
+
+    total_amount REAL NOT NULL,
+
+    status TEXT NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+
+);
+
+
+
+-- Tworzenie tabeli order_items
+
+CREATE TABLE order_items (
+
+    order_item_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    order_id INTEGER NOT NULL,
+
+    product_id INTEGER NOT NULL,
+
+    quantity INTEGER NOT NULL,
+
+    price REAL NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+
+);
+
+
+
+-- Tworzenie tabeli cart
+
+CREATE TABLE cart (
+
+    cart_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    user_id INTEGER NOT NULL,
+
+    product_id INTEGER NOT NULL,
+
+    quantity INTEGER NOT NULL DEFAULT 1,
+
+    added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+
+);
+
+
+
+-- Tworzenie tabeli reviews
+
+CREATE TABLE reviews (
+
+    review_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    user_id INTEGER NOT NULL,
+
+    product_id INTEGER NOT NULL,
+
+    rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
+
+    comment TEXT,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+
+);
+
+
+
+-- Tworzenie tabeli transactions
+
+CREATE TABLE transactions (
+
+    transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    wallet_id INTEGER NOT NULL,
+
+    order_id INTEGER,
+
+    amount REAL NOT NULL,
+
+    type TEXT NOT NULL,
+
+    status TEXT NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (wallet_id) REFERENCES wallet(wallet_id),
+
+    FOREIGN KEY (order_id) REFERENCES orders(order_id)
+
+);
+
+
+
+-- Tworzenie tabeli administrators
+
+CREATE TABLE administrators (
+
+    admin_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    username TEXT NOT NULL UNIQUE,
+
+    email TEXT NOT NULL UNIQUE,
+
+    password TEXT NOT NULL,
+
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+);
+
+
+
+-- Tworzenie tabeli reports
+
+CREATE TABLE reports (
+
+    report_id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+    admin_id INTEGER NOT NULL,
+
+    title TEXT NOT NULL,
+
+    content TEXT,
+
+    generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (admin_id) REFERENCES administrators(admin_id)
+
 );</sql><current_tab id="0"/></tab_sql></sqlb_project>

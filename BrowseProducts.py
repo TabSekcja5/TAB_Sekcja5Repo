@@ -30,7 +30,7 @@ class BrowseProducts(ctk.CTkFrame):
                 print("Połączono z bazą danych")
 
                 cursor.execute("""
-                    SELECT p.name, p.description, p.price, p.stock_quantity, c.name
+                    SELECT p.product_id, p.name, p.description, p.price, p.stock_quantity, c.name
                     FROM products p
                     JOIN categories c ON p.category_id = c.category_id
                 """)
@@ -38,14 +38,15 @@ class BrowseProducts(ctk.CTkFrame):
                 print("Wyniki zapytania:", rows)
 
                 for row in rows:
-                    name = row[0]
-                    description = row[1]
-                    price = row[2]
-                    stock_quantity = row[3]
-                    category_name = row[4]
+                    product_id = row[0]
+                    name = row[1]
+                    description = row[2]
+                    price = row[3]
+                    stock_quantity = row[4]
+                    category_name = row[5]
                     print(f"Ładowanie produktu: {name}, {description}, {price}, {stock_quantity}, {category_name}")
 
-                    product = Product(self, name, stock_quantity, description, price, category_name)
+                    product = Product(self, product_id, name, stock_quantity, description, price, category_name)
                     products.append(product)
 
                 print("Produkty załadowane z bazy danych!")
@@ -71,5 +72,5 @@ class BrowseProducts(ctk.CTkFrame):
 
     def unpack_product_by_id(self, product_id):
         for product in self.product_list:
-            if product.id == product_id:
+            if product.product_id == product_id:
                 product.pack_forget()
